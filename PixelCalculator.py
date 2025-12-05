@@ -22,8 +22,8 @@ def open_file():
 
         # Read open_file() func description
 def chk_format(file):
+    format_list = ["jpeg", "png", "gif", "bmp", "tiff", "ico", "webp", "ppm", "pgm", "pbm", "pcx", "tga", "avif"]
     try:
-        format_list = ["jpeg", "png", "gif", "bmp", "tiff", "ico", "webp", "ppm", "pgm", "pbm", "pcx", "tga", "avif"]
         slikica = Image.open(file)
         slikica_format = slikica.format
         if slikica_format.lower() in format_list:
@@ -45,14 +45,14 @@ def create_temp_dir():
     Path(folder).mkdir(parents=True, exist_ok=True)
     return str(folder)
 
-    # This func removes the ...\pix_calc_app\temp dir created by the create_temp_dir() func once the files have gone through the count_pixels() func
+        # This func removes the ...\pix_calc_app\ dir created by the create_temp_dir() func once the files have gone through the count_pixels() func
 def remove_temp_dir():
     drive = Path.cwd().anchor
     folder = Path(drive) / "pix_calc_app"
     shutil.rmtree(folder)
 
 
-    # This function calls create_temp_dir() func, then converts *.pdf pages to *.png pages and stores them in ...\pix_calc_app\temp until count_pixels() is called
+        # This function calls create_temp_dir() func, then converts *.pdf pages to *.png pages and stores them in ...\pix_calc_app\temp until count_pixels() is called
 def pdf_to_img(file_path):
     file = create_temp_dir()
     doc = fitz.open(file_path)
@@ -65,7 +65,7 @@ def pdf_to_img(file_path):
     return image_paths
 
 
-    # This func converts *.png files to RGBA, and goes through every pixel on page to check RGBA / explore cmyk option for printers. RGBA because some img formats require A(lpha)
+        # This func converts *.png files to RGBA, and goes through every pixel on page to check RGBA. RGBA because some img formats require A(lpha) / explore cmyk option for printers in next app ver.
 def count_pixels(file_path):
     red_threshold = slider.get()
     green_threshold = slider1.get()
@@ -85,13 +85,12 @@ def count_pixels(file_path):
     return round(ink_percentage, 2)
 
 
+        # This func is the callback/event_handler/command_handler
 def calc_button():
     try:
         file_format = app.file_format
         file_path = app.file_path
-        if file_format == None:
-            pass
-        elif file_format == 'pdf':
+        if file_format == 'pdf':
             app.converted_img = pdf_to_img(file_path)
             result_list = []
             for i, j in enumerate(app.converted_img):
@@ -99,9 +98,7 @@ def calc_button():
             messagebox.showinfo("Result", f"As per RGB sliders {'; '.join(result_list)}")
             remove_temp_dir()
         else:
-            messagebox.showinfo("Result",
-                                f"As per RGB sliders, percentage of inked pixels in >>{file_path}<< is {count_pixels(file_path)}%")
-            print(f"")
+            messagebox.showinfo("Result",f"As per RGB sliders, percentage of inked pixels in >>{file_path}<< is {count_pixels(file_path)}%")
     except AttributeError:
         messagebox.showwarning("File missing", "Select a file first")
 
