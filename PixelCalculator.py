@@ -86,10 +86,9 @@ def count_pixels(file_path, red_threshold, green_threshold, blue_threshold):
     return round(ink_percentage, 2)
 
 
-        # This func is the callback/event_handler/command_handler
+        # This func is the callback/event_handler/command_handler. This func also retrieves RGB values from the sliders when the GUI's Calculate button is pressed
 def calc_button(slider, slider1, slider2):
     try:
-        # Get the slider values when the button is clicked
         red_threshold = slider.get()
         green_threshold = slider1.get()
         blue_threshold = slider2.get()
@@ -98,7 +97,8 @@ def calc_button(slider, slider1, slider2):
             converted_img = pdf_to_img(file_path)
             result_list = []
             for i, j in enumerate(converted_img):
-                result_list.append(f"for >>page_{i + 1}<< percentage of inked pixels is {count_pixels(j, red_threshold, green_threshold, blue_threshold)}%")
+                result_list.append(
+                    f"for >>page_{i + 1}<< percentage of inked pixels is {count_pixels(j, red_threshold, green_threshold, blue_threshold)}%")
             messagebox.showinfo("Result", f"As per RGB sliders {'; '.join(result_list)}")
             remove_temp_dir()
         else:
@@ -151,4 +151,3 @@ def main_app_win():
 
 if __name__ == '__main__':
     main()
-
