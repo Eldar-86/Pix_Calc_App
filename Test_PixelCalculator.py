@@ -1,4 +1,4 @@
-from project import chk_format, create_temp_dir, remove_temp_dir, pdf_to_img
+from project import chk_format, create_temp_dir, remove_temp_dir, pdf_to_img, count_pixels
 import pytest
 
 
@@ -12,6 +12,10 @@ def test_pdf_to_img():                                                          
     pdf_to_img_result = ['/workspaces/38842169/project/pix_calc_app/temp/page_1.png',
                         '/workspaces/38842169/project/pix_calc_app/temp/page_2.png']
     assert pdf_to_img("/workspaces/38842169/project/pdf_doc") == pdf_to_img_result      # This line will test returning value when 2 page long PDF file is selected
+
+
+def test_count_pixels():                                                                # Function to test count_pixels() functions which uses PIL, goes through an image and returns float rounded to 2 decimals
+    assert count_pixels("/workspaces/38842169/project/before1.jpg", 0, 0, 0) == 97.33   # This line will test returning value of a before1.jpg file; if all (RGB) values set to 0 should return 97.33
 
 
 def test_create_temp_dir():                                                             # Function to test the create_temp_dir function in project.py
